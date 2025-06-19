@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    body.fade {
+        opacity: 0;
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="#" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-wrapper">
+            <section class="hero">
+                <img src="/image 22.jpg" alt="iPhone 16 Pro">
+                <div class="hero-content">
+                </div>
+            </section>
+        </div>
+
+        <section class="best-sellers">
+            <h2>Лучшие товары</h2>
+            <div class="category-list">
+                <div class="category-card">
+                    <img src="https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/758004/2_758004.jpg?timestamp=2024-09-10_14-43-17" alt="Смартфоны">
+                    <p>Смартфоны</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/575965/1_575965.jpg" alt="Ноутбуки">
+                    <p>Ноутбуки</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/764376/2_764376.jpg?timestamp=2024-10-22_09-20-27" alt="Смарт-часы">
+                    <p>Смарт-часы</p>
+                </div>
+                <div class="category-card">
+                    <img src="https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/769670/3_769670.jpg?timestamp=2024-12-02_11-02-07" alt="Наушники">
+                    <p>Наушники</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="reviews">
+            <h2>Отзывы покупателей</h2>
+            <div class="review-list">
+                <div class="review-card">
+                    <img class="avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Анна К.">
+                    <div class="review-content">
+                        <div class="review-header">
+                            <span class="reviewer">Анна К.</span>
+                            <span class="review-date">1 неделя назад</span>
+                        </div>
+                        <div class="stars">★★★★★</div>
+                        <p>Отличный магазин! Заказала новый смартфон, доставили в течение 2 часов, как и обещали.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="avatar" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Дмитрий П.">
+                    <div class="review-content">
+                        <div class="review-header">
+                            <span class="reviewer">Дмитрий П.</span>
+                            <span class="review-date">2 недели назад</span>
+                        </div>
+                        <div class="stars">★★★★☆</div>
+                        <p>Все отлично, но немного задержали с отправкой.</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <img class="avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Елена С.">
+                    <div class="review-content">
+                        <div class="review-header">
+                            <span class="reviewer">Елена С.</span>
+                            <span class="review-date">3 недели назад</span>
+                        </div>
+                        <div class="stars">★★★★★</div>
+                        <p>Прекрасный магазин, всегда приветливые продавцы и оперативная доставка.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="advantages">
+            <h2>Преимущества доставки</h2>
+            <div class="advantages-list">
+                <div class="advantage-card">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Быстрая доставка</span>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-clock"></i>
+                    <span>Доставка в течение 2 часов</span>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Гарантия качества</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    </script>
+</body>
+</html>

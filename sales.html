@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Акции — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    body.fade {
+        opacity: 0;
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html" class="active">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <main>
+        <h1 class="sales-title">Актуальные акции</h1>
+        <div class="sales-list">
+            <div class="sale-card">
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80" alt="Подарок к устройству">
+                <div class="sale-content">
+                    <h2>Подарок к устройству</h2>
+                    <p>При покупке любого смартфона или планшета — бронестекло и чехол в подарок!</p>
+                </div>
+            </div>
+            <div class="sale-card">
+                <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80" alt="Скидка на аксессуары">
+                <div class="sale-content">
+                    <h2>Скидка 10% на аксессуары</h2>
+                    <p>Покупайте смартфон и получайте скидку 10% на любые аксессуары.</p>
+                </div>
+            </div>
+            <div class="sale-card">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80" alt="Бесплатная доставка">
+                <div class="sale-content">
+                    <h2>Бесплатная доставка</h2>
+                    <p>Закажите на сумму от 50 000 ₽ и получите бесплатную доставку по России.</p>
+                </div>
+            </div>
+            <div class="sale-card">
+                <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80" alt="Второй аксессуар со скидкой">
+                <div class="sale-content">
+                    <h2>Второй аксессуар — со скидкой 50%</h2>
+                    <p>Купите два аксессуара и получите второй с 50% скидкой!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    </script>
+</body>
+</html> 

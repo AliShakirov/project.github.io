@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    body.fade {
+        opacity: 0;
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    body {
+        transition: opacity 0.2s cubic-bezier(.4,0,.2,1);
+    }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html" class="active">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form" id="catalogSearchForm" autocomplete="off">
+                <input type="text" id="catalogSearchInput" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+
+    <main class="catalog-main">
+        <aside class="catalog-filter">
+            <form id="filterForm">
+                <h3>Фильтр</h3>
+                <div class="filter-section">
+                    <div class="filter-label">Категории</div>
+                    <div id="categoryCheckboxes"></div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-label">Бренды</div>
+                    <div id="brandCheckboxes"></div>
+                </div>
+                <div class="filter-section">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="availableCheckbox">
+                        <span>Только в наличии</span>
+                    </label>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-label">Диапазон цен</div>
+                    <div class="price-range-fields">
+                        <input type="number" id="priceMin" placeholder="от" min="0" step="1000">
+                        <span>—</span>
+                        <input type="number" id="priceMax" placeholder="до" min="0" step="1000">
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-label">Сортировка</div>
+                    <select id="sortSelect">
+                        <option value="default">По умолчанию</option>
+                        <option value="price-asc">Сначала дешёвые</option>
+                        <option value="price-desc">Сначала дорогие</option>
+                        <option value="alpha">По алфавиту</option>
+                        <option value="newest">Сначала новые</option>
+                    </select>
+                </div>
+                <div class="filter-btns">
+                    <button type="submit" class="btn-main">Поиск</button>
+                    <button type="button" id="resetFilters" class="btn-reset">Сбросить</button>
+                </div>
+                <div class="filter-count">
+                    <span id="foundCount"></span>
+                </div>
+            </form>
+        </aside>
+        <section class="catalog-content">
+            <h1>Каталог</h1>
+            <div class="quick-categories" id="quickCategories"></div>
+            <div id="productGrid" class="product-grid"></div>
+            <div class="pagination" id="pagination"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script src="/static/catalog.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+
+    // Поиск по товарам
+    const searchInput = document.getElementById('catalogSearchInput');
+    const searchForm = document.getElementById('catalogSearchForm');
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        filterAndUpdate();
+    });
+    searchInput.addEventListener('input', function() {
+        filterAndUpdate();
+    });
+    // Модифицируем filterAndUpdate для поиска
+    const origFilterAndUpdate = filterAndUpdate;
+    filterAndUpdate = function() {
+        const searchValue = searchInput.value.trim().toLowerCase();
+        checkedCategories = getCheckedValues('category');
+        checkedBrands = getCheckedValues('brand');
+        onlyAvailable = document.getElementById('availableCheckbox').checked;
+        sortBy = document.getElementById('sortSelect').value;
+        const priceMin = +document.getElementById('priceMin').value || 0;
+        const priceMax = +document.getElementById('priceMax').value || Infinity;
+        let temp = products.filter(p =>
+            (checkedCategories.length === 0 || checkedCategories.includes(p.category)) &&
+            (checkedBrands.length === 0 || checkedBrands.includes(p.brand)) &&
+            (!onlyAvailable || p.available) &&
+            p.price >= priceMin &&
+            p.price <= priceMax &&
+            (searchValue === '' || p.title.toLowerCase().includes(searchValue))
+        );
+        // Сортировка
+        if (sortBy === 'price-asc') temp.sort((a, b) => a.price - b.price);
+        else if (sortBy === 'price-desc') temp.sort((a, b) => b.price - a.price);
+        else if (sortBy === 'alpha') temp.sort((a, b) => a.title.localeCompare(b.title));
+        else if (sortBy === 'newest') temp.sort((a, b) => new Date(b.date) - new Date(a.date));
+        filtered = temp;
+        currentPage = 1;
+        update();
+    }
+    </script>
+</body>
+</html>

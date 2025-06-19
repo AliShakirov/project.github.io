@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .register-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 36px 32px; }
+        .register-title { font-size: 2rem; font-weight: 800; margin-bottom: 18px; text-align: center; }
+        .register-form input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #eee; margin-bottom: 16px; font-size: 1rem; background: #fafbfc; transition: border 0.2s; }
+        .register-form input:focus { border: 1.5px solid #f08c00; outline: none; }
+        .register-form button { width: 100%; background: #f08c00; color: #fff; border: none; border-radius: 10px; padding: 12px 0; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: background 0.2s; }
+        .register-form button:hover { background: #e07b00; }
+        .register-error { color: #e74c3c; text-align: center; margin-bottom: 10px; }
+        .register-success { color: #27ae60; text-align: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-title">Регистрация</div>
+        <form id="registerForm" class="register-form">
+            <input type="text" id="regUsername" placeholder="Имя пользователя" required>
+            <input type="email" id="regEmail" placeholder="E-mail" required>
+            <input type="password" id="regPassword" placeholder="Пароль" required>
+            <div id="registerError" class="register-error"></div>
+            <div id="registerSuccess" class="register-success"></div>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <div style="text-align:center; margin-top:12px;">
+            Уже есть аккаунт? <a href="login.html">Войти</a>
+        </div>
+    </div>
+    <script>
+    document.getElementById('registerForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const errorDiv = document.getElementById('registerError');
+      const successDiv = document.getElementById('registerSuccess');
+      errorDiv.textContent = '';
+      successDiv.textContent = '';
+      const response = await fetch('/api/users/register/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, email, password})
+      });
+      const data = await response.json();
+      if (response.ok) {
+        successDiv.textContent = 'Регистрация успешна! Теперь войдите.';
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+      } else {
+        errorDiv.textContent = data.detail || JSON.stringify(data);
+      }
+    };
+    </script>
+</body>
+</html> 

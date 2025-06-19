@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избранные — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f7f7f9; }
+        .favorites-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            margin-top: 40px;
+        }
+        .favorites-heart {
+            color: #f08c00;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .favorites-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        .favorites-desc {
+            font-size: 1.15rem;
+            color: #888;
+            text-align: center;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html" class="active">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <main class="favorites-main">
+        <div class="favorites-title" style="text-align:center; margin-bottom:24px;">Избранные товары</div>
+        <div id="favoritesList" class="favorites-list"></div>
+        <div id="favoritesEmpty" class="favorites-empty" style="display:none; text-align:center; color:#888; font-size:1.2rem; margin:60px 0 80px 0;">
+            <i class="fas fa-heart-broken" style="font-size:2.5rem; color:#f08c00;"></i><br>
+            У вас пока нет избранных товаров.
+        </div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html> 

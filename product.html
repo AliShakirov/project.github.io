@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карточка товара — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-page-container {
+            max-width: 1100px;
+            margin: 40px auto 60px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            display: flex;
+            gap: 48px;
+            padding: 40px 32px 32px 32px;
+        }
+        .product-gallery {
+            flex: 0 0 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-main-img {
+            width: 320px;
+            height: 320px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #f7f7f9;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            margin-bottom: 18px;
+        }
+        .product-thumbs {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+        .product-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #f7f7f9;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border 0.2s;
+        }
+        .product-thumb.selected {
+            border: 2px solid #f08c00;
+        }
+        .product-info {
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .product-brand {
+            font-size: 1.1rem;
+            color: #f08c00;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .product-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .product-status {
+            font-size: 1rem;
+            color: #e74c3c;
+            margin-bottom: 12px;
+        }
+        .product-rating {
+            color: #f08c00;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 18px;
+        }
+        .btn-cart {
+            background: #f08c00;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 0;
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 18px;
+            transition: background 0.2s;
+        }
+        .btn-cart:disabled {
+            background: #eee;
+            color: #aaa;
+            cursor: default;
+        }
+        .product-desc {
+            font-size: 1.15rem;
+            color: #444;
+            margin-bottom: 18px;
+        }
+        .product-specs {
+            margin-top: 18px;
+            background: #f7f7f9;
+            border-radius: 12px;
+            padding: 18px 22px;
+            font-size: 1.08rem;
+        }
+        .product-specs-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .product-specs-row:last-child { margin-bottom: 0; }
+        @media (max-width: 900px) {
+            .product-page-container { flex-direction: column; gap: 24px; padding: 18px 6px; }
+            .product-gallery { align-items: flex-start; }
+            .product-main-img { width: 100%; height: 220px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <main>
+        <div class="product-page-container" id="productPage"></div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script>
+    // Моковые данные для примера
+    const MOCK_PRODUCTS = [
+        {
+            title: "Galaxy S21",
+            brand: "Samsung",
+            desc: "128GB, Black. Великолепный AMOLED-дисплей, мощная камера и стильный дизайн.",
+            img: [
+                "https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/758004/2_758004.jpg",
+                "https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/758004/1_758004.jpg"
+            ],
+            price: 70000,
+            available: true,
+            rating: 5,
+            specs: {
+                "Экран": "6.7'' AMOLED",
+                "Процессор": "Snapdragon 8 Gen 2",
+                "Память": "128 ГБ",
+                "Камера": "108 Мп",
+                "Батарея": "5000 мАч"
+            }
+        },
+        {
+            title: "iPhone 14 Pro",
+            brand: "Apple",
+            desc: "256GB, Purple. Новый уровень производительности и камеры.",
+            img: [
+                "https://cdn1.technopark.ru/technopark/photos_resized/product/1000_1000/764376/2_764376.jpg"
+            ],
+            price: 120000,
+            available: false,
+            rating: 4.8,
+            specs: {
+                "Экран": "6.1'' OLED",
+                "Процессор": "Apple A16 Bionic",
+                "Память": "256 ГБ",
+                "Камера": "48 Мп",
+                "Батарея": "3200 мАч"
+            }
+        }
+    ];
+    function getProductTitleFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('title');
+    }
+    function getAllProducts() {
+        // Можно расширить для реальных данных
+        return MOCK_PRODUCTS;
+    }
+    function renderProductPage() {
+        const title = getProductTitleFromUrl();
+        const products = getAllProducts();
+        const product = products.find(p => p.title === title);
+        const page = document.getElementById('productPage');
+        if (!product) {
+            page.innerHTML = '<div style="padding:40px; text-align:center;">Товар не найден</div>';
+            return;
+        }
+        // Галерея
+        let mainImg = product.img[0];
+        page.innerHTML = `
+            <div class="product-gallery">
+                <img src="${mainImg}" class="product-main-img" id="mainProductImg" alt="${product.title}">
+                <div class="product-thumbs">
+                    ${product.img.map((src, i) => `<img src="${src}" class="product-thumb${i===0?' selected':''}" data-idx="${i}" alt="thumb">`).join('')}
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-brand">${product.brand || ''}</div>
+                <div class="product-title">${product.title}</div>
+                <div class="product-status">${product.available ? '<span style=\'color:#27ae60\'>В наличии</span>' : 'Нет в наличии'}</div>
+                <div class="product-rating">${product.rating ? '★ ' + product.rating : ''}</div>
+                <div class="product-price">${product.price.toLocaleString()} ₽</div>
+                <button class="btn-cart" ${product.available ? '' : 'disabled'}>${product.available ? 'Добавить в корзину' : 'Нет в наличии'}</button>
+                <div class="product-desc">${product.desc}</div>
+                <div class="product-specs">
+                    ${Object.entries(product.specs).map(([k,v]) => `<div class="product-specs-row"><span>${k}</span><span>${v}</span></div>`).join('')}
+                </div>
+            </div>
+        `;
+        // Галерея: смена главного фото
+        page.querySelectorAll('.product-thumb').forEach(thumb => {
+            thumb.onclick = function() {
+                page.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+                page.querySelector('#mainProductImg').src = this.src;
+            };
+        });
+        // Кнопка корзины
+        const btnCart = page.querySelector('.btn-cart');
+        btnCart.onclick = function() {
+            if (!product.available) return;
+            const cart = JSON.parse(localStorage.getItem('cartList') || '[]');
+            if (!cart.some(p => p.title === product.title)) {
+                cart.push(product);
+                localStorage.setItem('cartList', JSON.stringify(cart));
+                btnCart.textContent = 'В корзине';
+                btnCart.disabled = true;
+            }
+        };
+        // Если уже в корзине — дизейблим кнопку
+        const cart = JSON.parse(localStorage.getItem('cartList') || '[]');
+        if (cart.some(p => p.title === product.title)) {
+            btnCart.textContent = 'В корзине';
+            btnCart.disabled = true;
+        }
+    }
+    renderProductPage();
+    </script>
+</body>
+</html> 

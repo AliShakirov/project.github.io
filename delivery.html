@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доставка — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html" class="active">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <main>
+        <h1 class="delivery-title">Доставка King Mobile</h1>
+        <section class="delivery-options">
+            <div class="delivery-card">
+                <i class="fas fa-truck"></i>
+                <h2>Курьерская доставка</h2>
+                <p>Доставка по Ростову-на-Дону и области — от 2 часов. Стоимость: 500 ₽, бесплатно от 50 000 ₽.</p>
+            </div>
+            <div class="delivery-card">
+                <i class="fas fa-box"></i>
+                <h2>Доставка по России</h2>
+                <p>Отправка СДЭК, Почтой России, Boxberry. Срок: 2-7 дней. Стоимость: от 700 ₽.</p>
+            </div>
+            <div class="delivery-card">
+                <i class="fas fa-store"></i>
+                <h2>Самовывоз</h2>
+                <p>Заберите заказ в нашем магазине в центре города. Бесплатно, готово к выдаче через 30 минут.</p>
+            </div>
+        </section>
+        <section class="delivery-advantages">
+            <h2>Почему выбирают нас?</h2>
+            <div class="advantages-list">
+                <div class="advantage-card"><i class="fas fa-clock"></i><span>Быстро — от 2 часов</span></div>
+                <div class="advantage-card"><i class="fas fa-shield-alt"></i><span>Гарантия целостности</span></div>
+                <div class="advantage-card"><i class="fas fa-credit-card"></i><span>Оплата при получении</span></div>
+                <div class="advantage-card"><i class="fas fa-phone-volume"></i><span>Поддержка 24/7</span></div>
+                <div class="advantage-card"><i class="fas fa-undo"></i><span>Удобный возврат</span></div>
+                <div class="advantage-card"><i class="fas fa-gift"></i><span>Подарочные сертификаты</span></div>
+            </div>
+        </section>
+        <section class="delivery-faq">
+            <h2>Часто задаваемые вопросы</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q"><i class="fas fa-question-circle"></i> Как быстро доставят мой заказ?</div>
+                    <div class="faq-a">В Ростове — от 2 часов, по России — 2-7 дней в зависимости от региона и службы доставки.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q"><i class="fas fa-question-circle"></i> Можно ли оплатить при получении?</div>
+                    <div class="faq-a">Да, вы можете оплатить заказ наличными или картой при получении.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q"><i class="fas fa-question-circle"></i> Как узнать статус доставки?</div>
+                    <div class="faq-a">После отправки заказа вы получите трек-номер для отслеживания.</div>
+                </div>
+            </div>
+        </section>
+        <section class="delivery-support">
+            <h2>Остались вопросы?</h2>
+            <p>Позвоните нам: <a href="tel:+78001234567">8 800 123-45-67</a> или напишите на <a href="mailto:support@kingmobile.ru">support@kingmobile.ru</a></p>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    </script>
+</body>
+</html> 

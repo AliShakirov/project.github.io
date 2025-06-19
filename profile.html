@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-hero {
+            background: linear-gradient(90deg, #f08c00 0%, #ffb347 100%);
+            color: #fff;
+            padding: 48px 0 36px 0;
+            text-align: center;
+        }
+        .profile-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .profile-hero p {
+            font-size: 1.18rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        .profile-main {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            padding: 0 10px;
+        }
+        .profile-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .profile-avatar-large {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffe0b2;
+            margin-bottom: 10px;
+        }
+        .profile-name {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .profile-email {
+            color: #888;
+            font-size: 1.08rem;
+            margin-bottom: 10px;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .profile-btn {
+            background: #f08c00;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .profile-btn:hover {
+            background: #e07b00;
+        }
+        .profile-logout {
+            background: #fff3e0;
+            color: #f08c00;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .profile-logout:hover {
+            background: #ffe0b2;
+            color: #e07b00;
+        }
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.18); z-index: 1000; display: flex; align-items: center; justify-content: center;
+        }
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 32px rgba(240,140,0,0.13);
+            padding: 36px 32px 28px 32px;
+            min-width: 320px;
+            max-width: 98vw;
+            text-align: center;
+            position: relative;
+            animation: modal-pop 0.22s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes modal-pop {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 1.3rem; color: #888; cursor: pointer;
+        }
+        .modal-close:hover { color: #f08c00; }
+        .modal input, .modal input[type="password"] {
+            width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #eee; margin-bottom: 16px; font-size: 1rem; background: #fafbfc; transition: border 0.2s;
+        }
+        .modal input:focus { border: 1.5px solid #f08c00; outline: none; }
+        .modal .profile-btn, .modal .profile-logout {
+            width: 100%; margin-bottom: 8px;
+        }
+        .modal-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 18px; }
+        .modal-actions { display: flex; gap: 12px; justify-content: center; margin-top: 10px; }
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: -18px; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 6px;
+            background: linear-gradient(90deg, #f08c00 0%, #ffb347 100%);
+            border-radius: 6px;
+            opacity: 0.18;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <section class="profile-hero">
+        <h1>Личный кабинет</h1>
+        <p>Управляйте своими данными, заказами и настройками профиля.</p>
+    </section>
+    <main class="profile-main">
+        <div class="profile-card">
+            <img class="profile-avatar-large" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль">
+            <div class="profile-name">Анна Кузнецова</div>
+            <div class="profile-email">anna.kuznetsova@email.com</div>
+            <div class="profile-actions">
+                <button class="profile-btn">Редактировать</button>
+                <button class="profile-btn">Сменить пароль</button>
+                <button class="profile-logout">Выйти</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <div id="modalBackdrop" style="display:none;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+    window.onload = async function() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const response = await fetch('/api/users/profile/', {
+        headers: {'Authorization': 'Bearer ' + token}
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // Имя пользователя: сначала first_name, потом username, потом email
+        let displayName = data.first_name || data.username || data.email || '';
+        document.querySelector('.profile-name').textContent = displayName;
+        document.querySelector('.profile-email').textContent = data.email || '';
+        // Gravatar по email
+        function md5(str) {
+          return CryptoJS.MD5(str.trim().toLowerCase()).toString();
+        }
+        if (data.email) {
+          document.querySelector('.profile-avatar-large').src =
+            'https://www.gravatar.com/avatar/' + md5(data.email) + '?d=identicon';
+        }
+      } else {
+        window.location.href = 'login.html';
+      }
+    };
+    document.querySelector('.profile-logout').onclick = function() {
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a, .profile-avatar').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    // Модальные окна для профиля
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    function showModal(html) {
+        modalBackdrop.innerHTML = `<div class='modal-backdrop'><div class='modal'>${html}</div></div>`;
+        modalBackdrop.style.display = '';
+        modalBackdrop.querySelector('.modal-close').onclick = hideModal;
+    }
+    function hideModal() {
+        modalBackdrop.style.display = 'none';
+        modalBackdrop.innerHTML = '';
+    }
+    // Редактировать профиль
+    document.querySelector('.profile-btn').onclick = function() {
+        showModal(`
+            <button class='modal-close' title='Закрыть'>&times;</button>
+            <div class='modal-title'>Редактировать профиль</div>
+            <input type='text' id='editName' value='Анна Кузнецова' placeholder='Имя'>
+            <input type='email' id='editEmail' value='anna.kuznetsova@email.com' placeholder='E-mail'>
+            <div class='modal-actions'>
+                <button class='profile-btn' id='saveProfileBtn'>Сохранить</button>
+                <button class='profile-logout' onclick='hideModal()'>Отмена</button>
+            </div>
+        `);
+        document.getElementById('saveProfileBtn').onclick = function() {
+            // Здесь можно добавить сохранение в localStorage или backend
+            hideModal();
+            alert('Профиль обновлён!');
+        };
+    };
+    // Сменить пароль
+    document.querySelectorAll('.profile-btn')[1].onclick = function() {
+        showModal(`
+            <button class='modal-close' title='Закрыть'>&times;</button>
+            <div class='modal-title'>Сменить пароль</div>
+            <input type='password' id='oldPass' placeholder='Старый пароль'>
+            <input type='password' id='newPass' placeholder='Новый пароль'>
+            <input type='password' id='repeatPass' placeholder='Повторите новый пароль'>
+            <div class='modal-actions'>
+                <button class='profile-btn' id='savePassBtn'>Сменить</button>
+                <button class='profile-logout' onclick='hideModal()'>Отмена</button>
+            </div>
+        `);
+        document.getElementById('savePassBtn').onclick = function() {
+            // Здесь можно добавить валидацию и сохранение
+            hideModal();
+            alert('Пароль успешно изменён!');
+        };
+    };
+    </script>
+</body>
+</html> 

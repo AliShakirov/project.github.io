@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contacts-hero {
+            background: linear-gradient(90deg, #f08c00 0%, #ffb347 100%);
+            color: #fff;
+            padding: 48px 0 36px 0;
+            text-align: center;
+        }
+        .contacts-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .contacts-hero p {
+            font-size: 1.18rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        .contacts-main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto 40px auto;
+            padding: 0 10px;
+        }
+        .contacts-info, .contacts-form {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            padding: 36px 32px;
+            flex: 1 1 340px;
+            min-width: 320px;
+        }
+        .contacts-info h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .contacts-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 18px 0;
+        }
+        .contacts-list li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.08rem;
+            margin-bottom: 14px;
+        }
+        .contacts-list i {
+            color: #f08c00;
+            font-size: 1.3rem;
+        }
+        .contacts-socials {
+            display: flex;
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .contacts-socials a {
+            color: #fff;
+            background: #f08c00;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: background 0.2s;
+        }
+        .contacts-socials a:hover {
+            background: #222;
+        }
+        .contacts-map {
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        .contacts-form h2 {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .contacts-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .contacts-form input, .contacts-form textarea {
+            border: 1.5px solid #eee;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 1rem;
+            background: #fafbfc;
+            transition: border 0.2s;
+        }
+        .contacts-form input:focus, .contacts-form textarea:focus {
+            border: 1.5px solid #f08c00;
+            outline: none;
+        }
+        .contacts-form button {
+            background: #f08c00;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 0;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .contacts-form button:hover {
+            background: #e07b00;
+        }
+        @media (max-width: 900px) {
+            .contacts-main { flex-direction: column; gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html" class="active">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <section class="contacts-hero">
+        <h1>Связаться с King Mobile</h1>
+        <p>Остались вопросы? Мы всегда на связи — напишите нам или приходите в гости!</p>
+    </section>
+    <main class="contacts-main">
+        <div class="contacts-info">
+            <h2>Наши контакты</h2>
+            <ul class="contacts-list">
+                <li><i class="fas fa-map-marker-alt"></i> г. Ростов-на-Дону, ул. Крепостной, 117</li>
+                <li><i class="fas fa-phone"></i> <a href="tel:89001263429">8 900 126-34-29</a></li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:info@kingmobile.ru">info@kingmobile.ru</a></li>
+                <li><i class="fas fa-clock"></i> Пн-Вс: 10:00–20:00</li>
+            </ul>
+            <div class="contacts-socials">
+                <a href="#" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="VK"><i class="fab fa-vk"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="contacts-map">
+                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1b7e2e2e2e2e2e2e2e2e2e2e2e2e2e2e&amp;source=constructor" width="100%" height="220" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="contacts-form">
+            <h2>Обратная связь</h2>
+            <form>
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="email" placeholder="E-mail" required>
+                <textarea rows="4" placeholder="Сообщение" required></textarea>
+                <button type="submit">Отправить сообщение</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    </script>
+</body>
+</html> 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .login-container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 36px 32px; }
+        .login-title { font-size: 2rem; font-weight: 800; margin-bottom: 18px; text-align: center; }
+        .login-form input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #eee; margin-bottom: 16px; font-size: 1rem; background: #fafbfc; transition: border 0.2s; }
+        .login-form input:focus { border: 1.5px solid #f08c00; outline: none; }
+        .login-form button { width: 100%; background: #f08c00; color: #fff; border: none; border-radius: 10px; padding: 12px 0; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: background 0.2s; }
+        .login-form button:hover { background: #e07b00; }
+        .login-error { color: #e74c3c; text-align: center; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-title">Вход</div>
+        <form id="loginForm" class="login-form">
+            <input type="email" id="loginEmail" placeholder="E-mail" required>
+            <input type="password" id="loginPassword" placeholder="Пароль" required>
+            <div id="loginError" class="login-error"></div>
+            <button type="submit">Войти</button>
+        </form>
+        <div style="text-align:center; margin-top:12px;">
+            Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+        </div>
+    </div>
+    <script>
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.textContent = '';
+      try {
+        const response = await fetch('/api/users/login/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email, password})
+        });
+        const data = await response.json();
+        if (response.ok && data.access) {
+          localStorage.setItem('token', data.access);
+          window.location.href = 'profile.html';
+        } else {
+          errorDiv.textContent = data.detail || 'Ошибка входа';
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Ошибка соединения с сервером';
+      }
+    };
+    </script>
+</body>
+</html> 

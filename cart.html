@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина — King Mobile</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cart-hero {
+            background: linear-gradient(90deg, #f08c00 0%, #ffb347 100%);
+            color: #fff;
+            padding: 48px 0 36px 0;
+            text-align: center;
+        }
+        .cart-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        .cart-hero p {
+            font-size: 1.18rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        .cart-main {
+            max-width: 1100px;
+            margin: 0 auto 40px auto;
+            padding: 0 10px;
+        }
+        .cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin-bottom: 36px;
+        }
+        .cart-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 22px 24px;
+            position: relative;
+        }
+        .cart-item img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #fff;
+        }
+        .cart-info {
+            flex: 1;
+        }
+        .cart-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .cart-desc {
+            font-size: 1.05rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .cart-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f08c00;
+        }
+        .cart-remove {
+            background: #fff3e0;
+            color: #f08c00;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .cart-remove:hover {
+            background: #ffe0b2;
+            color: #e07b00;
+        }
+        .cart-summary {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 18px;
+        }
+        .cart-total {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #f08c00;
+        }
+        .cart-order-btn {
+            background: #f08c00;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 38px;
+            font-weight: 700;
+            font-size: 1.08rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .cart-order-btn:hover {
+            background: #e07b00;
+        }
+        .cart-empty {
+            text-align: center;
+            color: #888;
+            font-size: 1.2rem;
+            margin: 60px 0 80px 0;
+        }
+        .cart-empty i {
+            font-size: 2.5rem;
+            color: #f08c00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="sales.html">Акции</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="favorites.html">Избранные</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <form class="search-form">
+                <input type="text" placeholder="Поиск">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i></a>
+            <a href="profile.html" class="profile-avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Профиль"></a>
+        </div>
+    </header>
+    <section class="cart-hero">
+        <h1>Корзина</h1>
+        <p>Проверьте свой заказ и оформите покупку в пару кликов!</p>
+    </section>
+    <main class="cart-main">
+        <div id="cartList" class="cart-list"></div>
+        <div id="cartEmpty" class="cart-empty" style="display:none;">
+            <i class="fas fa-shopping-cart"></i><br>
+            Ваша корзина пуста.
+        </div>
+        <div id="cartSummary" class="cart-summary" style="display:none;">
+            <div class="cart-total">Итого: <span id="cartTotal">0 ₽</span></div>
+            <button class="cart-order-btn">Оформить заказ</button>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+            <a href="#">Политика конфиденциальности</a>
+        </div>
+    </footer>
+    <script>
+    // Моковые данные для примера (заменить на реальные из localStorage или backend)
+    const mockCart = JSON.parse(localStorage.getItem('cartList') || '[]');
+    const cartList = document.getElementById('cartList');
+    const cartEmpty = document.getElementById('cartEmpty');
+    const cartSummary = document.getElementById('cartSummary');
+    const cartTotal = document.getElementById('cartTotal');
+
+    function renderCart() {
+        cartList.innerHTML = '';
+        if (!mockCart.length) {
+            cartList.style.display = 'none';
+            cartEmpty.style.display = '';
+            cartSummary.style.display = 'none';
+            return;
+        }
+        cartList.style.display = 'flex';
+        cartEmpty.style.display = 'none';
+        cartSummary.style.display = 'flex';
+        let total = 0;
+        mockCart.forEach(prod => {
+            const item = document.createElement('div');
+            item.className = 'cart-item';
+            item.innerHTML = `
+                <img src="${prod.img}" alt="${prod.title}">
+                <div class="cart-info">
+                    <div class="cart-title">${prod.title}</div>
+                    <div class="cart-desc">${prod.desc}</div>
+                    <div class="cart-price">${prod.price.toLocaleString()} ₽</div>
+                </div>
+                <button class="cart-remove" title="Удалить"><i class="fas fa-times"></i></button>
+            `;
+            item.querySelector('.cart-remove').onclick = function() {
+                const idx = mockCart.findIndex(p => p.title === prod.title);
+                if (idx !== -1) {
+                    mockCart.splice(idx, 1);
+                    localStorage.setItem('cartList', JSON.stringify(mockCart));
+                    renderCart();
+                }
+            };
+            cartList.appendChild(item);
+            total += prod.price;
+        });
+        cartTotal.textContent = total.toLocaleString() + ' ₽';
+    }
+    renderCart();
+    // Плавный fade-переход
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.remove('fade');
+        document.querySelectorAll('nav a, .header-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    e.preventDefault();
+                    document.body.classList.add('fade');
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 150);
+                }
+            });
+        });
+    });
+    document.body.classList.add('fade');
+    </script>
+</body>
+</html> 
