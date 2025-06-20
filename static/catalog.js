@@ -168,10 +168,9 @@ function renderProducts() {
                 <button class="btn-fav${inFav ? ' active' : ''}" title="В избранное" data-title="${p.title}">
                     <i class="fas fa-heart"></i>
                 </button>
-                ${inCart
-                    ? `<button class="btn-cart btn-remove-cart" style="background:#f08c00;color:#fff;" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
-                    : `<button class="btn-cart" title="В корзину" data-title="${p.title}">Добавить в корзину</button>`
-                }
+                <button class="btn-cart" title="${inCart ? 'Убрать из корзины' : 'В корзину'}" data-title="${p.title}">
+                    ${inCart ? 'Убрать из корзины' : 'Добавить в корзину'}
+                </button>
             </div>
         </div>
         `;
@@ -247,23 +246,18 @@ function update() {
         };
     });
     document.querySelectorAll('.btn-cart').forEach(btn => {
-        if (btn.classList.contains('btn-remove-cart')) {
-            btn.onclick = function(e) {
-                e.stopPropagation();
-                const title = this.getAttribute('data-title');
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const title = this.getAttribute('data-title');
+            const product = products.find(p => p.title === title);
+            if (!product) return;
+            if (getCart().some(c => c.title === title)) {
                 removeFromCart(title);
-                update();
-            };
-        } else {
-            btn.onclick = function(e) {
-                e.stopPropagation();
-                const title = this.getAttribute('data-title');
-                const product = products.find(p => p.title === title);
-                if (!product) return;
+            } else {
                 addToCart(product);
-                update();
-            };
-        }
+            }
+            update();
+        };
     });
     // Счётчик найденных товаров
     document.getElementById('foundCount').textContent = `Найдено: ${filtered.length}`;
