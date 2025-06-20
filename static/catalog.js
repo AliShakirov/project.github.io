@@ -165,10 +165,9 @@ function renderProducts() {
             <div class="product-price">${p.price.toLocaleString()} ₽</div>
             ${p.available ? '<div class="in-stock">В наличии</div>' : '<div class="out-of-stock">Нет в наличии</div>'}
             <div class="card-actions">
-                ${inFav
-                    ? `<button class="btn-remove-fav" title="Убрать из избранного" data-title="${p.title}"><i class="fas fa-heart-broken"></i></button>`
-                    : `<button class="btn-fav" title="В избранное" data-title="${p.title}"><i class="fas fa-heart"></i></button>`
-                }
+                <button class="btn-fav${inFav ? ' active' : ''}" title="В избранное" data-title="${p.title}">
+                    <i class="fas fa-heart"></i>
+                </button>
                 ${inCart
                     ? `<button class="btn-remove-cart" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
                     : `<button class="btn-cart" title="В корзину" data-title="${p.title}">Добавить в корзину</button>`
@@ -237,16 +236,13 @@ function update() {
             const title = this.getAttribute('data-title');
             const product = products.find(p => p.title === title);
             if (!product) return;
-            addToFavorites(product);
-            update();
-        };
-    });
-    document.querySelectorAll('.btn-remove-fav').forEach(btn => {
-        btn.onclick = function(e) {
-            e.stopPropagation();
-            const title = this.getAttribute('data-title');
-            removeFromFavorites(title);
-            update();
+            if (this.classList.contains('active')) {
+                removeFromFavorites(title);
+                this.classList.remove('active');
+            } else {
+                addToFavorites(product);
+                this.classList.add('active');
+            }
         };
     });
     document.querySelectorAll('.btn-cart').forEach(btn => {
