@@ -183,36 +183,18 @@
     <div id="modalBackdrop" style="display:none;"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-    window.onload = async function() {
-      const token = localStorage.getItem('token');
-      if (!token) {
+    window.onload = function() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
         window.location.href = 'login.html';
         return;
       }
-      const response = await fetch('/api/users/profile/', {
-        headers: {'Authorization': 'Bearer ' + token}
-      });
-      if (response.ok) {
-        const data = await response.json();
-        // Имя пользователя: сначала first_name, потом username, потом email
-        let displayName = data.first_name || data.username || data.email || '';
-        document.querySelector('.profile-name').textContent = displayName;
-        document.querySelector('.profile-email').textContent = data.email || '';
-        // Gravatar по email
-        function md5(str) {
-          return CryptoJS.MD5(str.trim().toLowerCase()).toString();
-        }
-        if (data.email) {
-          document.querySelector('.profile-avatar-large').src =
-            'https://www.gravatar.com/avatar/' + md5(data.email) + '?d=identicon';
-        }
-      } else {
+      document.querySelector('.profile-name').textContent = user.email.split('@')[0] || 'Пользователь';
+      document.querySelector('.profile-email').textContent = user.email;
+      document.querySelector('.profile-logout').onclick = function() {
+        localStorage.removeItem('user');
         window.location.href = 'login.html';
-      }
-    };
-    document.querySelector('.profile-logout').onclick = function() {
-      localStorage.removeItem('token');
-      window.location.href = 'login.html';
+      };
     };
     document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('fade');
