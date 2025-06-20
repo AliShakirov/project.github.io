@@ -151,59 +151,24 @@ function removeFromFavorites(title) {
 
 function renderProducts() {
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
-    const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    const end = start + PRODUCTS_PER_PAGE;
-    filtered.slice(start, end).forEach(prod => {
-        const isFav = getFavorites().some(p => p.title === prod.title);
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <img src="${prod.img}" alt="${prod.title}">
-            <div class="product-title">${prod.title}</div>
-            <div class="product-desc">${prod.desc}</div>
-            <div class="product-price">${prod.price.toLocaleString()} ₽</div>
-            ${prod.available ? '<div class="in-stock">В наличии</div>' : '<div class="out-of-stock">Нет в наличии</div>'}
+    if (!grid) return;
+    grid.innerHTML = products.map(p => `
+        <div class="product-card">
+            <img src="${p.img}" alt="${p.title}">
+            <div class="product-title">${p.title}</div>
+            <div class="product-desc">${p.desc}</div>
+            <div class="product-price">${p.price.toLocaleString()} ₽</div>
+            ${p.available ? '<div class="in-stock">В наличии</div>' : '<div class="out-of-stock">Нет в наличии</div>'}
             <div class="card-actions">
-                <button class="btn-fav${isFav ? ' active' : ''}" title="В избранное" data-title="${prod.title}">
+                <button class="btn-fav${getFavorites().some(f => f.title === p.title) ? ' active' : ''}" title="В избранное" data-title="${p.title}">
                     <i class="fas fa-heart"></i>
                 </button>
                 <button class="btn-cart" title="В корзину">
                     Добавить в корзину
                 </button>
             </div>
-        `;
-        // Переход на карточку товара по клику на карточку (кроме кнопок)
-        card.onclick = function(e) {
-            if (e.target.closest('.btn-fav') || e.target.closest('.btn-cart')) return;
-            window.location.href = `product.html?title=${encodeURIComponent(prod.title)}`;
-        };
-        // Избранное
-        card.querySelector('.btn-fav').onclick = function(e) {
-            e.stopPropagation();
-            const title = prod.title;
-            if (getFavorites().some(p => p.title === title)) {
-                removeFromFavorites(title);
-                this.classList.remove('active');
-            } else {
-                addToFavorites(prod);
-                this.classList.add('active');
-            }
-        };
-        // Корзина
-        card.querySelector('.btn-cart').onclick = function(e) {
-            e.stopPropagation();
-            addToCart(prod);
-            this.textContent = 'В корзине';
-            this.disabled = true;
-        };
-        // Если уже в корзине — дизейблим кнопку
-        if (getCart().some(p => p.title === prod.title)) {
-            card.querySelector('.btn-cart').textContent = 'В корзине';
-            card.querySelector('.btn-cart').disabled = true;
-        }
-        grid.appendChild(card);
-    });
+        </div>
+    `).join('');
 }
 
 function renderPagination() {
