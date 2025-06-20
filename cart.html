@@ -161,6 +161,9 @@
         <p>Проверьте свой заказ и оформите покупку в пару кликов!</p>
     </section>
     <main class="cart-main">
+        <div style="text-align:right;margin-bottom:10px;">
+            <button id="clearCartBtn" style="background:#ffe0b2;color:#e07b00;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-weight:600;">Очистить корзину</button>
+        </div>
         <div id="cartList" class="cart-list"></div>
         <div id="cartEmpty" class="cart-empty" style="display:none;">
             <i class="fas fa-shopping-cart"></i><br>
@@ -241,6 +244,10 @@
         });
     });
     document.body.classList.add('fade');
+    document.getElementById('clearCartBtn').onclick = function() {
+        localStorage.removeItem('cartList');
+        location.reload();
+    };
     </script>
 </body>
 </html> 
