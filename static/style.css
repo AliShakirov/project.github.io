@@ -829,3 +829,61 @@ body.loaded #preloader {
     color: #222;
     margin-top: 40px;
 }
+
+/* --- Планшеты (ширина до 1024px) --- */
+@media (max-width: 1024px) {
+  .main-header, .profile-main, .cart-main, .favorites-main {
+    max-width: 98vw;
+    padding: 0 10px;
+  }
+  .product-card {
+    width: 45vw;
+    min-width: 220px;
+    max-width: 340px;
+  }
+}
+
+/* --- Мобильные (ширина до 768px) --- */
+@media (max-width: 768px) {
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+  }
+  .header-nav ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .product-card {
+    width: 98vw;
+    min-width: 180px;
+    max-width: 100%;
+    margin: 0 auto 18px auto;
+  }
+  .cart-item, .profile-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 8px;
+  }
+  .cart-item img, .profile-avatar-large {
+    margin: 0 auto;
+  }
+}
+
+/* --- Очень маленькие экраны (до 480px) --- */
+@media (max-width: 480px) {
+  .main-header, .profile-main, .cart-main, .favorites-main {
+    padding: 0 2px;
+  }
+  .product-title, .profile-name {
+    font-size: 1.1rem;
+  }
+  .product-price, .cart-price {
+    font-size: 1rem;
+  }
+  .btn-cart, .profile-btn, .cart-order-btn {
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+}
