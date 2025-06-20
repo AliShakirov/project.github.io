@@ -165,12 +165,41 @@ function renderProducts() {
                 <button class="btn-fav${getFavorites().some(f => f.title === p.title) ? ' active' : ''}" title="В избранное" data-title="${p.title}">
                     <i class="fas fa-heart"></i>
                 </button>
-                <button class="btn-cart" title="В корзину">
-                    Добавить в корзину
+                <button class="btn-cart" title="В корзину" data-title="${p.title}" ${getCart().some(c => c.title === p.title) ? 'disabled' : ''}>
+                    ${getCart().some(c => c.title === p.title) ? 'В корзине' : 'Добавить в корзину'}
                 </button>
             </div>
         </div>
     `).join('');
+
+    // Обработчики для кнопок "В избранное"
+    grid.querySelectorAll('.btn-fav').forEach(btn => {
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const title = this.getAttribute('data-title');
+            const product = products.find(p => p.title === title);
+            if (!product) return;
+            if (this.classList.contains('active')) {
+                removeFromFavorites(title);
+                this.classList.remove('active');
+            } else {
+                addToFavorites(product);
+                this.classList.add('active');
+            }
+        };
+    });
+    // Обработчики для кнопок "В корзину"
+    grid.querySelectorAll('.btn-cart').forEach(btn => {
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const title = this.getAttribute('data-title');
+            const product = products.find(p => p.title === title);
+            if (!product) return;
+            addToCart(product);
+            this.textContent = 'В корзине';
+            this.disabled = true;
+        };
+    });
 }
 
 function renderPagination() {
