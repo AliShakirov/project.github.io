@@ -156,6 +156,7 @@ function renderProducts() {
     if (!grid) return;
     grid.innerHTML = filtered.map(p => {
         const inCart = getCart().some(c => c.title === p.title);
+        const inFav = getFavorites().some(f => f.title === p.title);
         return `
         <div class="product-card">
             <img src="${p.img}" alt="${p.title}">
@@ -164,9 +165,10 @@ function renderProducts() {
             <div class="product-price">${p.price.toLocaleString()} ₽</div>
             ${p.available ? '<div class="in-stock">В наличии</div>' : '<div class="out-of-stock">Нет в наличии</div>'}
             <div class="card-actions">
-                <button class="btn-fav${getFavorites().some(f => f.title === p.title) ? ' active' : ''}" title="В избранное" data-title="${p.title}">
-                    <i class="fas fa-heart"></i>
-                </button>
+                ${inFav
+                    ? `<button class="btn-remove-fav" title="Убрать из избранного" data-title="${p.title}"><i class="fas fa-heart-broken"></i></button>`
+                    : `<button class="btn-fav" title="В избранное" data-title="${p.title}"><i class="fas fa-heart"></i></button>`
+                }
                 ${inCart
                     ? `<button class="btn-remove-cart" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
                     : `<button class="btn-cart" title="В корзину" data-title="${p.title}">Добавить в корзину</button>`
@@ -235,13 +237,16 @@ function update() {
             const title = this.getAttribute('data-title');
             const product = products.find(p => p.title === title);
             if (!product) return;
-            if (this.classList.contains('active')) {
-                removeFromFavorites(title);
-                this.classList.remove('active');
-            } else {
-                addToFavorites(product);
-                this.classList.add('active');
-            }
+            addToFavorites(product);
+            update();
+        };
+    });
+    document.querySelectorAll('.btn-remove-fav').forEach(btn => {
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const title = this.getAttribute('data-title');
+            removeFromFavorites(title);
+            update();
         };
     });
     document.querySelectorAll('.btn-cart').forEach(btn => {
