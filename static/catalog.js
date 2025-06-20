@@ -221,22 +221,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCategoryCheckboxes();
     renderBrandCheckboxes();
     filterAndUpdate();
+
+    // Обработчики для фильтров
     document.getElementById('filterForm').addEventListener('submit', e => {
         e.preventDefault();
         filterAndUpdate();
     });
-    document.getElementById('resetFilters').addEventListener('click', () => {
-        checkedCategories = [];
-        checkedBrands = [];
-        onlyAvailable = false;
-        sortBy = 'default';
-        document.getElementById('filterForm').reset();
-        document.getElementById('priceMin').value = '';
-        document.getElementById('priceMax').value = '';
-        filterAndUpdate();
-    });
-    document.getElementById('categoryCheckboxes').addEventListener('change', filterAndUpdate);
-    document.getElementById('brandCheckboxes').addEventListener('change', filterAndUpdate);
     document.getElementById('availableCheckbox').addEventListener('change', filterAndUpdate);
     document.getElementById('sortSelect').addEventListener('change', filterAndUpdate);
+    document.getElementById('categoryCheckboxes').addEventListener('change', filterAndUpdate);
+    document.getElementById('brandCheckboxes').addEventListener('change', filterAndUpdate);
+    document.getElementById('priceMin').addEventListener('input', filterAndUpdate);
+    document.getElementById('priceMax').addEventListener('input', filterAndUpdate);
 }); 
