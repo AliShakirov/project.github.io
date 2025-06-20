@@ -85,13 +85,15 @@ function filterAndUpdate() {
     sortBy = document.getElementById('sortSelect').value;
     const priceMin = +document.getElementById('priceMin').value || 0;
     const priceMax = +document.getElementById('priceMax').value || Infinity;
+    const searchValue = document.getElementById('catalogSearchInput').value.trim().toLowerCase();
 
     let temp = products.filter(p =>
         (checkedCategories.length === 0 || checkedCategories.includes(p.category)) &&
         (checkedBrands.length === 0 || checkedBrands.includes(p.brand)) &&
         (!onlyAvailable || p.available) &&
         p.price >= priceMin &&
-        p.price <= priceMax
+        p.price <= priceMax &&
+        (searchValue === '' || p.title.toLowerCase().includes(searchValue) || p.desc.toLowerCase().includes(searchValue))
     );
 
     // Сортировка
@@ -233,4 +235,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('brandCheckboxes').addEventListener('change', filterAndUpdate);
     document.getElementById('priceMin').addEventListener('input', filterAndUpdate);
     document.getElementById('priceMax').addEventListener('input', filterAndUpdate);
+    document.getElementById('catalogSearchInput').addEventListener('input', filterAndUpdate);
 }); 
