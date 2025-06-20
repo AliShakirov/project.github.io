@@ -21,6 +21,9 @@
         <div class="header-left">
             <a href="index.html" class="logo"><i class="fas fa-cube"></i> King Mobile</a>
         </div>
+        <button class="burger" id="burgerBtn" aria-label="Открыть меню">
+          <span></span><span></span><span></span>
+        </button>
         <nav class="header-nav">
             <ul>
                 <li><a href="catalog.html">Каталог</a></li>
@@ -151,6 +154,19 @@
                     }, 150);
                 }
             });
+        });
+        // Мобильное меню бургер
+        const burger = document.getElementById('burgerBtn');
+        const nav = document.querySelector('.header-nav');
+        burger.onclick = function() {
+          nav.classList.toggle('open');
+          document.body.classList.toggle('menu-open');
+        };
+        document.addEventListener('click', function(e) {
+          if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== burger) {
+            nav.classList.remove('open');
+            document.body.classList.remove('menu-open');
+          }
         });
     });
     document.body.classList.add('fade');
