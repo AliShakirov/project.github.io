@@ -25,6 +25,7 @@ import os
 from django.conf import settings
 from django.urls import re_path
 from rest_framework.validators import UniqueValidator
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -51,3 +52,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
     re_path(r'^(?P<path>.*\.html)$', serve, {'document_root': os.path.join(settings.BASE_DIR, '../сайт')}),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
