@@ -63,7 +63,7 @@
     </header>
     <main class="favorites-main">
         <div class="favorites-title" style="text-align:center; margin-bottom:24px;">Избранные товары</div>
-        <div id="favoritesList" class="favorites-list"></div>
+        <div id="favoritesList" class="favorites-list" style="display:flex;flex-wrap:wrap;gap:24px;justify-content:center;"></div>
         <div id="favoritesEmpty" class="favorites-empty" style="display:none; text-align:center; color:#888; font-size:1.2rem; margin:60px 0 80px 0;">
             <i class="fas fa-heart-broken" style="font-size:2.5rem; color:#f08c00;"></i><br>
             У вас пока нет избранных товаров.
@@ -76,6 +76,46 @@
             <a href="#">Политика конфиденциальности</a>
         </div>
     </footer>
-    <script src="/static/script.js"></script>
+    <script>
+    function getFavorites() {
+        return JSON.parse(localStorage.getItem('favoritesList') || '[]');
+    }
+    function setFavorites(favs) {
+        localStorage.setItem('favoritesList', JSON.stringify(favs));
+    }
+    function renderFavorites() {
+        const favs = getFavorites();
+        const list = document.getElementById('favoritesList');
+        const empty = document.getElementById('favoritesEmpty');
+        list.innerHTML = '';
+        if (!favs.length) {
+            list.style.display = 'none';
+            empty.style.display = '';
+            return;
+        }
+        list.style.display = 'flex';
+        empty.style.display = 'none';
+        favs.forEach(prod => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.width = '260px';
+            card.innerHTML = `
+                <img src="${prod.img}" alt="${prod.title}" style="width:100%;height:180px;object-fit:contain;border-radius:12px;background:#fff;">
+                <div class="product-title">${prod.title}</div>
+                <div class="product-desc">${prod.desc}</div>
+                <div class="product-price">${prod.price.toLocaleString()} ₽</div>
+                <button class="btn-fav active" title="Убрать из избранного" style="margin-top:10px;background:#f08c00;color:#fff;width:100%;border-radius:8px;padding:8px 0;cursor:pointer;">Убрать из избранного</button>
+            `;
+            card.querySelector('.btn-fav').onclick = function() {
+                let favs = getFavorites();
+                favs = favs.filter(f => f.title !== prod.title);
+                setFavorites(favs);
+                renderFavorites();
+            };
+            list.appendChild(card);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', renderFavorites);
+    </script>
 </body>
 </html> 

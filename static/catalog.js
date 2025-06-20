@@ -169,7 +169,7 @@ function renderProducts() {
                     <i class="fas fa-heart"></i>
                 </button>
                 ${inCart
-                    ? `<button class="btn-remove-cart" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
+                    ? `<button class="btn-cart btn-remove-cart" style="background:#f08c00;color:#fff;" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
                     : `<button class="btn-cart" title="В корзину" data-title="${p.title}">Добавить в корзину</button>`
                 }
             </div>
@@ -236,35 +236,34 @@ function update() {
             const title = this.getAttribute('data-title');
             const product = products.find(p => p.title === title);
             if (!product) return;
-            const favs = getFavorites();
-            const idx = favs.findIndex(f => f.title === title);
-            if (idx !== -1) {
-                favs.splice(idx, 1);
-                setFavorites(favs);
+            let favs = getFavorites();
+            if (favs.some(f => f.title === title)) {
+                favs = favs.filter(f => f.title !== title);
             } else {
                 favs.push(product);
-                setFavorites(favs);
             }
+            setFavorites(favs);
             update();
         };
     });
     document.querySelectorAll('.btn-cart').forEach(btn => {
-        btn.onclick = function(e) {
-            e.stopPropagation();
-            const title = this.getAttribute('data-title');
-            const product = products.find(p => p.title === title);
-            if (!product) return;
-            addToCart(product);
-            update();
-        };
-    });
-    document.querySelectorAll('.btn-remove-cart').forEach(btn => {
-        btn.onclick = function(e) {
-            e.stopPropagation();
-            const title = this.getAttribute('data-title');
-            removeFromCart(title);
-            update();
-        };
+        if (btn.classList.contains('btn-remove-cart')) {
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const title = this.getAttribute('data-title');
+                removeFromCart(title);
+                update();
+            };
+        } else {
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const title = this.getAttribute('data-title');
+                const product = products.find(p => p.title === title);
+                if (!product) return;
+                addToCart(product);
+                update();
+            };
+        }
     });
     // Счётчик найденных товаров
     document.getElementById('foundCount').textContent = `Найдено: ${filtered.length}`;
