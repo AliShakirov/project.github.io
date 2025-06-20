@@ -236,13 +236,16 @@ function update() {
             const title = this.getAttribute('data-title');
             const product = products.find(p => p.title === title);
             if (!product) return;
-            if (this.classList.contains('active')) {
-                removeFromFavorites(title);
-                this.classList.remove('active');
+            const favs = getFavorites();
+            const idx = favs.findIndex(f => f.title === title);
+            if (idx !== -1) {
+                favs.splice(idx, 1);
+                setFavorites(favs);
             } else {
-                addToFavorites(product);
-                this.classList.add('active');
+                favs.push(product);
+                setFavorites(favs);
             }
+            update();
         };
     });
     document.querySelectorAll('.btn-cart').forEach(btn => {
