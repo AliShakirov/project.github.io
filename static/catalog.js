@@ -154,7 +154,9 @@ function removeFromFavorites(title) {
 function renderProducts() {
     const grid = document.getElementById('productGrid');
     if (!grid) return;
-    grid.innerHTML = filtered.map(p => `
+    grid.innerHTML = filtered.map(p => {
+        const inCart = getCart().some(c => c.title === p.title);
+        return `
         <div class="product-card">
             <img src="${p.img}" alt="${p.title}">
             <div class="product-title">${p.title}</div>
@@ -165,12 +167,14 @@ function renderProducts() {
                 <button class="btn-fav${getFavorites().some(f => f.title === p.title) ? ' active' : ''}" title="В избранное" data-title="${p.title}">
                     <i class="fas fa-heart"></i>
                 </button>
-                <button class="btn-cart" title="В корзину" data-title="${p.title}" ${getCart().some(c => c.title === p.title) ? 'disabled' : ''}>
-                    ${getCart().some(c => c.title === p.title) ? 'В корзине' : 'Добавить в корзину'}
-                </button>
+                ${inCart
+                    ? `<button class="btn-remove-cart" title="Убрать из корзины" data-title="${p.title}">Убрать из корзины</button>`
+                    : `<button class="btn-cart" title="В корзину" data-title="${p.title}">Добавить в корзину</button>`
+                }
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function renderPagination() {
@@ -247,8 +251,15 @@ function update() {
             const product = products.find(p => p.title === title);
             if (!product) return;
             addToCart(product);
-            this.textContent = 'В корзине';
-            this.disabled = true;
+            update();
+        };
+    });
+    document.querySelectorAll('.btn-remove-cart').forEach(btn => {
+        btn.onclick = function(e) {
+            e.stopPropagation();
+            const title = this.getAttribute('data-title');
+            removeFromCart(title);
+            update();
         };
     });
     // Счётчик найденных товаров
