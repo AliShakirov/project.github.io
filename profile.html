@@ -189,7 +189,7 @@
         window.location.href = 'login.html';
         return;
       }
-      document.querySelector('.profile-name').textContent = user.email.split('@')[0] || 'Пользователь';
+      document.querySelector('.profile-name').textContent = user.name || user.email.split('@')[0] || 'Пользователь';
       document.querySelector('.profile-email').textContent = user.email;
       document.querySelector('.profile-logout').onclick = function() {
         localStorage.removeItem('user');
@@ -225,20 +225,25 @@
     }
     // Редактировать профиль
     document.querySelector('.profile-btn').onclick = function() {
+        const user = JSON.parse(localStorage.getItem('user'));
         showModal(`
             <button class='modal-close' title='Закрыть'>&times;</button>
             <div class='modal-title'>Редактировать профиль</div>
-            <input type='text' id='editName' value='Анна Кузнецова' placeholder='Имя'>
-            <input type='email' id='editEmail' value='anna.kuznetsova@email.com' placeholder='E-mail'>
+            <input type='text' id='editName' value='${user && user.name ? user.name : (user ? user.email.split('@')[0] : '')}' placeholder='Имя'>
+            <input type='email' id='editEmail' value='${user ? user.email : ''}' placeholder='E-mail'>
             <div class='modal-actions'>
                 <button class='profile-btn' id='saveProfileBtn'>Сохранить</button>
                 <button class='profile-logout' onclick='hideModal()'>Отмена</button>
             </div>
         `);
         document.getElementById('saveProfileBtn').onclick = function() {
-            // Здесь можно добавить сохранение в localStorage или backend
+            const name = document.getElementById('editName').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            if (!email) return;
+            localStorage.setItem('user', JSON.stringify({email: email, name: name}));
+            document.querySelector('.profile-name').textContent = name || email.split('@')[0];
+            document.querySelector('.profile-email').textContent = email;
             hideModal();
-            alert('Профиль обновлён!');
         };
     };
     // Сменить пароль
