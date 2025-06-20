@@ -220,6 +220,7 @@ function update() {
 document.addEventListener('DOMContentLoaded', () => {
     renderCategoryCheckboxes();
     renderBrandCheckboxes();
+    filterAndUpdate();
     document.getElementById('filterForm').addEventListener('submit', e => {
         e.preventDefault();
         filterAndUpdate();
@@ -238,5 +239,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('brandCheckboxes').addEventListener('change', filterAndUpdate);
     document.getElementById('availableCheckbox').addEventListener('change', filterAndUpdate);
     document.getElementById('sortSelect').addEventListener('change', filterAndUpdate);
-    update();
 }); 
