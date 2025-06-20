@@ -61,8 +61,13 @@
         errorDiv.textContent = 'Введите e-mail и пароль';
         return;
       }
-      // Фейковый вход: сохраняем пользователя в localStorage
-      localStorage.setItem('user', JSON.stringify({email: email}));
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.email === email && u.password === password);
+      if (!user) {
+        errorDiv.textContent = 'Неверный e-mail или пароль';
+        return;
+      }
+      localStorage.setItem('user', JSON.stringify(user));
       window.location.href = 'profile.html';
     };
     </script>

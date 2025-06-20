@@ -54,27 +54,28 @@
         </div>
     </div>
     <script>
-    document.getElementById('registerForm').onsubmit = async function(e) {
+    document.getElementById('registerForm').onsubmit = function(e) {
       e.preventDefault();
-      const username = document.getElementById('regUsername').value;
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
+      const username = document.getElementById('regUsername').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
       const errorDiv = document.getElementById('registerError');
       const successDiv = document.getElementById('registerSuccess');
       errorDiv.textContent = '';
       successDiv.textContent = '';
-      const response = await fetch('/api/users/register/', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, email, password})
-      });
-      const data = await response.json();
-      if (response.ok) {
-        successDiv.textContent = 'Регистрация успешна! Теперь войдите.';
-        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-      } else {
-        errorDiv.textContent = data.detail || JSON.stringify(data);
+      if (!username || !email || !password) {
+        errorDiv.textContent = 'Заполните все поля';
+        return;
       }
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      if (users.find(u => u.email === email)) {
+        errorDiv.textContent = 'Пользователь с таким e-mail уже зарегистрирован';
+        return;
+      }
+      users.push({name: username, email: email, password: password});
+      localStorage.setItem('users', JSON.stringify(users));
+      successDiv.textContent = 'Регистрация успешна! Теперь войдите.';
+      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
     };
     </script>
 </body>

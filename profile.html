@@ -230,7 +230,7 @@
             <button class='modal-close' title='Закрыть'>&times;</button>
             <div class='modal-title'>Редактировать профиль</div>
             <input type='text' id='editName' value='${user && user.name ? user.name : (user ? user.email.split('@')[0] : '')}' placeholder='Имя'>
-            <input type='email' id='editEmail' value='${user ? user.email : ''}' placeholder='E-mail'>
+            <input type='email' id='editEmail' value='${user ? user.email : ''}' placeholder='E-mail' disabled>
             <div class='modal-actions'>
                 <button class='profile-btn' id='saveProfileBtn'>Сохранить</button>
                 <button class='profile-logout' onclick='hideModal()'>Отмена</button>
@@ -238,9 +238,14 @@
         `);
         document.getElementById('saveProfileBtn').onclick = function() {
             const name = document.getElementById('editName').value.trim();
-            const email = document.getElementById('editEmail').value.trim();
-            if (!email) return;
-            localStorage.setItem('user', JSON.stringify({email: email, name: name}));
+            // email менять нельзя
+            const email = user.email;
+            // Обновляем пользователя в массиве users
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            users = users.map(u => u.email === email ? {...u, name: name} : u);
+            localStorage.setItem('users', JSON.stringify(users));
+            // Обновляем текущего пользователя
+            localStorage.setItem('user', JSON.stringify({email: email, name: name, password: user.password}));
             document.querySelector('.profile-name').textContent = name || email.split('@')[0];
             document.querySelector('.profile-email').textContent = email;
             hideModal();
