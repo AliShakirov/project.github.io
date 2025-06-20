@@ -244,6 +244,15 @@ function update() {
     });
     document.getElementById('availableCheckbox').checked = onlyAvailable;
     document.getElementById('sortSelect').value = sortBy;
+    document.getElementById('priceMin').value = document.getElementById('priceMin').value;
+    document.getElementById('priceMax').value = document.getElementById('priceMax').value;
+    // Навешиваем обработчики на чекбоксы после рендера
+    document.getElementById('categoryCheckboxes').querySelectorAll('input[type=checkbox]').forEach(cb => {
+        cb.addEventListener('change', filterAndUpdate);
+    });
+    document.getElementById('brandCheckboxes').querySelectorAll('input[type=checkbox]').forEach(cb => {
+        cb.addEventListener('change', filterAndUpdate);
+    });
     // Счётчик найденных товаров
     document.getElementById('foundCount').textContent = `Найдено: ${filtered.length}`;
 }
