@@ -72,10 +72,12 @@
         errorDiv.textContent = 'Пользователь с таким e-mail уже зарегистрирован';
         return;
       }
-      users.push({name: username, email: email, password: password});
+      const newUser = {name: username, email: email, password: password};
+      users.push(newUser);
       localStorage.setItem('users', JSON.stringify(users));
-      successDiv.textContent = 'Регистрация успешна! Теперь войдите.';
-      setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+      localStorage.setItem('user', JSON.stringify(newUser));
+      successDiv.textContent = 'Регистрация успешна! Сейчас вы будете перенаправлены в профиль.';
+      setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
     };
     </script>
 </body>
