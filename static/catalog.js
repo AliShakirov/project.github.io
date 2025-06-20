@@ -154,7 +154,7 @@ function removeFromFavorites(title) {
 function renderProducts() {
     const grid = document.getElementById('productGrid');
     if (!grid) return;
-    grid.innerHTML = products.map(p => `
+    grid.innerHTML = filtered.map(p => `
         <div class="product-card">
             <img src="${p.img}" alt="${p.title}">
             <div class="product-title">${p.title}</div>
